@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app1/ui/screens/news/cubit/news_screen_cubit.dart';
 
 
-import '../../../utils/widgets/custom_drawer.dart';
+import '../../../widgets/custom_drawer.dart';
 import '../custom_choice_chip.dart';
 import 'article_widget.dart';
 
-class NewsScreen extends StatelessWidget {
+class NewsScreen extends StatefulWidget {
   static const routeName = "News";
-  const NewsScreen({super.key});
+  late String categoryId;
+  NewsScreen({super.key,});
 
   @override
+  State<NewsScreen> createState() => _NewsScreenState();
+}
+
+class _NewsScreenState extends State<NewsScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    widget.categoryId = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       drawer: CustomDrawer(onItemTab: (index){}),
       appBar: AppBar(
@@ -32,7 +45,7 @@ class NewsScreen extends StatelessWidget {
                 child: ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: 6,
-                  itemBuilder: (context, index) => ArticleWidget(),),
+                  itemBuilder: (context, index) => Container(),),
               )
           ],
         ),

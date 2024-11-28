@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app1/ui/screens/news/view/news_screen.dart';
 
 import '../../../../model/category.dart';
 import 'category.dart';
@@ -27,7 +28,11 @@ class CategoriesTab extends StatelessWidget {
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,mainAxisSpacing: 20,crossAxisSpacing: 20,childAspectRatio: 0.9),
             itemCount: 6,
-            itemBuilder: (context, index) =>  Category(categoryDM: CategoryDM.categoriesList[index],),
+            itemBuilder: (context, index) =>  InkWell(
+                onTap: (){
+                  Navigator.pushNamed(context, NewsScreen.routeName,arguments:CategoryDM.categoriesList[index].name );
+                },
+                child: Category(categoryDM: CategoryDM.categoriesList[index],)),
           ),
         );
   }

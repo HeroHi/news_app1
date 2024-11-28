@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/app_colors.dart';
+import '../../../../utils/consts/app_colors.dart';
+
 
 class CustomChoiceChip extends StatefulWidget {
   final String label;

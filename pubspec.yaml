@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   http: ^1.2.2
   cached_network_image: ^3.4.1
+  flutter_bloc: ^8.1.6
+  get_it: ^8.0.2
 
 dev_dependencies:
   flutter_test:
@@ -60,27 +62,3 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  assets:
-    - assets/images/
-    - assets/images/NewsTest.png
-    - assets/images/NewsTest@2x.png
-    - assets/images/NewsTest@3x.png
-    - assets/images/Politics.png
-    - assets/images/Politics@2x.png
-    - assets/images/Politics@3x.png
-    - assets/images/ball.png
-    - assets/images/ball@2x.png
-    - assets/images/ball@3x.png
-    - assets/images/bussines.png
-    - assets/images/bussines@2x.png
-    - assets/images/bussines@3x.png
-    - assets/images/environment.png
-    - assets/images/environment@2x.png
-    - assets/images/environment@3x.png
-    - assets/images/health.png
-    - assets/images/health@2x.png
-    - assets/images/health@3x.png
-    - assets/images/pattern.png
-    - assets/images/science.png
-    - assets/images/science@2x.png
-    - assets/images/science@3x.png

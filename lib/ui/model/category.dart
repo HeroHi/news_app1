@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../generated/assets.dart';
-import '../utils/app_colors.dart';
+import '../../utils/consts/app_colors.dart';
 
 
 class CategoryDM{

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/widgets/custom_drawer.dart';
+import '../../widgets/custom_drawer.dart';
 import 'custom_choice_chip.dart';
 
 class NewsScreen extends StatelessWidget {

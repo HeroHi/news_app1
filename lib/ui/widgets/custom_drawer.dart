@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../app_colors.dart';
+import '../../utils/consts/app_colors.dart';
+
 
 class CustomDrawer extends StatelessWidget {
   final Function(int) onItemTab;
@@ -38,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
       },
       child: Row(
         children: [
-          Icon(icon,size: 40,),
+          Icon(icon,size: 40,color: AppColors.drawerItemColor,),
           Text(text,style: theme.textTheme.titleLarge!.copyWith(color: AppColors.drawerItemColor),)
         ],
       ),

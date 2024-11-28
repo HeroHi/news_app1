@@ -4,8 +4,8 @@ import 'package:news_app1/ui/screens/home/tabs/settings/settings_tab.dart';
 
 
 import '../../../generated/assets.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/widgets/custom_drawer.dart';
+import '../../../utils/consts/app_colors.dart';
+import '../../widgets/custom_drawer.dart';
 
 class Home extends StatefulWidget {
   static String routeName = "Home";
