@@ -30,9 +30,9 @@ class CategoriesTab extends StatelessWidget {
             itemCount: 6,
             itemBuilder: (context, index) =>  InkWell(
                 onTap: (){
-                  Navigator.pushNamed(context, NewsScreen.routeName,arguments:CategoryDM.categoriesList[index].name );
+                  Navigator.pushNamed(context, NewsScreen.routeName,arguments:CategoryModel.categoriesList[index].id );
                 },
-                child: Category(categoryDM: CategoryDM.categoriesList[index],)),
+                child: Category(categoryModel: CategoryModel.categoriesList[index],)),
           ),
         );
   }

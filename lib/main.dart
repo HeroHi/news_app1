@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:news_app1/domain/di/di.dart';
 import 'package:news_app1/ui/screens/home/home.dart';
 import 'package:news_app1/ui/screens/news/view/news_screen.dart';
 import 'package:news_app1/utils/consts/app_themes.dart';
 
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
         Home.routeName: (_)=> Home(),
         NewsScreen.routeName:(_)=>NewsScreen()
       },
-      initialRoute: NewsScreen.routeName,
+      initialRoute: Home.routeName,
     );
   }
 }

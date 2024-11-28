@@ -4,19 +4,20 @@ import '../../generated/assets.dart';
 import '../../utils/consts/app_colors.dart';
 
 
-class CategoryDM{
+class CategoryModel{
   String name;
   String imagePath;
   Color backgroundColor;
   bool isLeftSided;
-  CategoryDM({required this.name,required this.imagePath,required this.backgroundColor,required this.isLeftSided});
-  static List<CategoryDM> categoriesList = [
-    CategoryDM(name: "Business", imagePath: Assets.imagesBussines, backgroundColor: AppColors.businessOrange, isLeftSided: false),
-    CategoryDM(name: "Health", imagePath: Assets.imagesHealth, backgroundColor: AppColors.healthPink, isLeftSided: true),
-    CategoryDM(name: "Sports", imagePath: Assets.imagesBall, backgroundColor: AppColors.sportsRed, isLeftSided: false),
-    CategoryDM(name: "Science", imagePath: Assets.imagesScience, backgroundColor: AppColors.scienceYellow, isLeftSided: true),
-    CategoryDM(name: "Technology", imagePath: Assets.imagesEnvironment, backgroundColor: AppColors.environmentGreen, isLeftSided: false),
-    CategoryDM(name: "Entertainment", imagePath: Assets.imagesPolitics, backgroundColor: AppColors.politicsBlue, isLeftSided: true),
+  String id;
+  CategoryModel({required this.id,required this.name,required this.imagePath,required this.backgroundColor,required this.isLeftSided});
+  static List<CategoryModel> categoriesList = [
+    CategoryModel(name: "Business", imagePath: Assets.imagesBussines, backgroundColor: AppColors.businessOrange, isLeftSided: false, id: 'business'),
+    CategoryModel(name: "Health", imagePath: Assets.imagesHealth, backgroundColor: AppColors.healthPink, isLeftSided: true, id: 'health'),
+    CategoryModel(name: "Sports", imagePath: Assets.imagesBall, backgroundColor: AppColors.sportsRed, isLeftSided: false, id: 'sports'),
+    CategoryModel(name: "Science", imagePath: Assets.imagesScience, backgroundColor: AppColors.scienceYellow, isLeftSided: true, id: 'science'),
+    CategoryModel(name: "Technology", imagePath: Assets.imagesEnvironment, backgroundColor: AppColors.environmentGreen, isLeftSided: false, id: 'technology'),
+    CategoryModel(name: "Entertainment", imagePath: Assets.imagesPolitics, backgroundColor: AppColors.politicsBlue, isLeftSided: true, id: 'technology'),
 
   ];
 }

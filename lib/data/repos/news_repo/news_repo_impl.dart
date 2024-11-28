@@ -1,11 +1,13 @@
 
 
+import 'package:injectable/injectable.dart';
+
 import '../../../domain/entities/article_entity.dart';
 import '../../../domain/entities/source_entity.dart';
 import '../../../domain/repos/news_repo.dart';
 import 'data_sources/news_local_data_source/news_local_data_source.dart';
 import 'data_sources/news_remote_data_source/news_remote_data_source.dart';
-
+@Injectable(as: NewsRepo)
 class NewsRepoImpl extends NewsRepo {
   final NewsRemoteDataSource _newsRemoteDataSource;
   final NewsLocalDataSource _newsLocalDataSource;

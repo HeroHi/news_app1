@@ -4,8 +4,9 @@ import '../../../utils/consts/app_colors.dart';
 
 class CustomChoiceChip extends StatefulWidget {
   final String label;
-  final bool selected;
-  const CustomChoiceChip({super.key,required this.label,required this.selected});
+  bool isSelected;
+  final Function() onSelected;
+   CustomChoiceChip({super.key,required this.label,required this.onSelected,required this.isSelected});
 
   @override
   State<CustomChoiceChip> createState() => _CustomChoiceChipState();
@@ -19,13 +20,17 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
     return  Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: ChoiceChip(
-
+          onSelected: (value) {
+            widget.isSelected = value;
+            widget.onSelected();
+            setState(() {});
+          },
           label: Text(widget.label),
-          selected: widget.selected,
+          selected: widget.isSelected,
         showCheckmark: false,
         selectedColor: theme.primaryColor,
 
-        labelStyle: widget.selected?theme.textTheme.displaySmall!.copyWith(color: AppColors.white):theme.textTheme.displaySmall,
+        labelStyle: widget.isSelected?theme.textTheme.displaySmall!.copyWith(color: AppColors.white):theme.textTheme.displaySmall,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25),side: BorderSide(color: theme.primaryColor)),
       ),
     );
