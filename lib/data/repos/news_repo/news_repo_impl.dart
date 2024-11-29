@@ -26,4 +26,9 @@ class NewsRepoImpl extends NewsRepo {
       (sourceModel) => sourceModel.toEntity(),
     )).toList();
   }
+  @override
+  Future<List<ArticleEntity>> getArticlesByQ({required String sourceId,required String q})async{
+    var articles = await _newsRemoteDataSource.getArticlesByQ(q,sourceId);
+    return articles.map((articleModel) => articleModel.toEntity() ,).toList();
+  }
 }

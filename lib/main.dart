@@ -4,6 +4,8 @@ import 'package:news_app1/ui/screens/home/home.dart';
 import 'package:news_app1/ui/screens/news/view/news_screen.dart';
 import 'package:news_app1/utils/consts/app_themes.dart';
 
+import 'ui/screens/detailed_article_screen/detailed_article_screen.dart';
+
 
 void main() {
   configureDependencies();
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
       theme: AppThemes.theme,
       routes: {
         Home.routeName: (_)=> Home(),
-        NewsScreen.routeName:(_)=>NewsScreen()
+        NewsScreen.routeName:(_)=>NewsScreen(),
+        DetailedArticleScreen.routeName:(_)=>DetailedArticleScreen()
       },
       initialRoute: Home.routeName,
     );

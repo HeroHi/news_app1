@@ -13,10 +13,10 @@ class NewsRemoteDataSource {
   static const String _baseUrl = "newsapi.org";
   static const String _sourcesEndPoint = "/v2/top-headlines/sources";
   static const String _articlesEndPoint = "/v2/top-headlines";
-   static const String _apiKey = "cf458e32fe31478caa9ca501aff550ff";
-   static const String _defaultErrorMessage =
+  static const String _apiKey = "cf458e32fe31478caa9ca501aff550ff";
+  static const String _defaultErrorMessage =
       "Something went wrong please try again later";
-   Future<List<Source>> getSources(String categoryId) async {
+  Future<List<Source>> getSources(String categoryId) async {
     try {
       Uri url = Uri.https(_baseUrl, _sourcesEndPoint, {"apiKey": _apiKey,"category":categoryId});
       Response serverResponse = await get(url);
@@ -36,6 +36,22 @@ class NewsRemoteDataSource {
     try {
       Uri url = Uri.https(_baseUrl, _articlesEndPoint,
           {"apiKey": _apiKey, "sources": sourceId});
+      Response serverResponse = await get(url);
+      ArticlesResponse articlesResponse =
+      ArticlesResponse.fromJson(jsonDecode(serverResponse.body));
+      if (serverResponse.statusCode >= 200 && serverResponse.statusCode < 300) {
+        return articlesResponse.articles!;
+      } else {
+        throw articlesResponse.message ?? _defaultErrorMessage;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<List<Article>> getArticlesByQ(String q,String sourceId) async{
+    try {
+      Uri url = Uri.https(_baseUrl, _articlesEndPoint,
+          {"apiKey": _apiKey, "sources": sourceId,"q":q});
       Response serverResponse = await get(url);
       ArticlesResponse articlesResponse =
       ArticlesResponse.fromJson(jsonDecode(serverResponse.body));

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app1/domain/di/di.dart';
 import 'package:news_app1/domain/entities/article_entity.dart';
 import 'package:news_app1/domain/entities/source_entity.dart';
+import 'package:news_app1/ui/screens/detailed_article_screen/detailed_article_screen.dart';
 import 'package:news_app1/ui/screens/home/home.dart';
 import 'package:news_app1/ui/screens/news/cubit/news_screen_cubit.dart';
 import 'package:news_app1/ui/screens/news/view/skeleton_article_widget.dart';
@@ -28,20 +29,22 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   NewsScreenCubit newsCubit = getIt();
   late String sourceId;
+  late List<ArticleEntity> searchedArticles;
   late List<ArticleEntity> articles;
   bool _isSearching = false;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   void _startSearching(){
     _isSearching = true;
     ModalRoute.of(context)!.addLocalHistoryEntry(LocalHistoryEntry(onRemove: (){
       Navigator.pop(context);
     }));
   }
-  void searchFor(String q){
-    articles = newsCubit.articles.where((element) => element.title!.contains(q),).toList();
+  void searchFor({required String sourceId,required String q}){
+    newsCubit.getFilteredArticles(sourceId: sourceId, q: q);
   }
   void _stopSearching(){
     _isSearching = false;
+    newsCubit.getArticles(sourceId);
     _searchController.clear();
   }
   @override
@@ -84,18 +87,19 @@ class _NewsScreenState extends State<NewsScreen> {
     return BlocBuilder<NewsScreenCubit, NewsScreenState>(
       buildWhen: (previous, current) => current is ArticlesLoaded || current is ArticlesLoading ,
       builder: (context, state) {
-        if(state is ArticlesLoaded){
-          articles = state.articles;
-        }
         return Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
-            itemCount: state is! ArticlesLoaded ? 10 : articles.length,
+            itemCount: state is! ArticlesLoaded ? 10 : state.articles.length,
             itemBuilder: (context, index) => Skeletonizer(
                 enabled: state is! ArticlesLoaded,
                 child: (state is! ArticlesLoaded)
                     ? SkeletonArticleWidget()
-                    : ArticleWidget(article: articles[index])),
+                    : InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, DetailedArticleScreen.routeName,arguments: state.articles[index]);
+                  },
+                    child: ArticleWidget(article: state.articles[index]))),
           ),
         );
       },
@@ -105,7 +109,6 @@ class _NewsScreenState extends State<NewsScreen> {
   AppBar _buildAppBar() {
     return AppBar(
       toolbarHeight: 72,
-      automaticallyImplyLeading: _isSearching,
       title: _isSearching?_buildSearchTextField():Text("sports"),
       actions: [
         Padding(
@@ -123,6 +126,7 @@ class _NewsScreenState extends State<NewsScreen> {
         if(state is SourcesLoaded){
           if(widget.selectedTabIndex == 0){
             newsCubit.getArticles(state.sources[0].id!);
+            sourceId = state.sources[0].id!;
           }
         }
           return _buildSourcesList(state);
@@ -176,7 +180,7 @@ class _NewsScreenState extends State<NewsScreen> {
       ),
       style: Theme.of(context).textTheme.displayMedium,
       onChanged: (value) {
-        searchFor(value);
+        searchFor(sourceId: sourceId,q: value);
         setState(() {});
       },
     );

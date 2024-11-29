@@ -9,5 +9,6 @@ abstract final class AppColors{
   static const Color businessOrange = Color(0xFFD69E57); // Business: Orange-Brown
   static const Color environmentGreen = Color(0xFF59C371); // Environment: Green
   static const Color scienceYellow = Color(0xFFFBC02D);
-  static const Color drawerItemColor = Color(0xFF303030);// Science: Yellow
+  static const Color drawerItemColor = Color(0xFF303030);
+  static const Color grey = Color(0xFF42505C);// Science: Yellow
 }

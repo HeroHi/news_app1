@@ -25,4 +25,10 @@ class NewsScreenCubit extends Cubit<NewsScreenState> {
       this.sources = sources;
     },);
   }
+  void getFilteredArticles({required String sourceId,required String q}){
+    newsRepo.getArticlesByQ(sourceId: sourceId, q: q).then((articles) {
+      emit(ArticlesLoaded(articles));
+      this.articles = articles;
+    },);
+  }
 }
