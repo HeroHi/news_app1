@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app1/domain/di/di.dart';
 import 'package:news_app1/ui/screens/news/cubit/news_screen_cubit.dart';
+import 'package:news_app1/utils/consts/app_colors.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../widgets/custom_drawer.dart';
-import '../custom_choice_chip.dart';
+import 'custom_choice_chip.dart';
 import 'article_widget.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -41,46 +42,41 @@ class _NewsScreenState extends State<NewsScreen> {
       child: Scaffold(
         drawer: CustomDrawer(onItemTab: (index) {}),
         appBar: _buildAppBar(),
-        body: BlocBuilder<NewsScreenCubit, NewsScreenState>(
-          builder: (context, state) {
-            if (state is SourcesLoading) {
-              return Center(child: const CircularProgressIndicator());
-            } else if (state is SourcesLoaded|| state is ArticlesLoaded) {
-              if (state is SourcesLoaded) {
-                sourceId = state.sources[0].id!;
-                newsCubit.getArticles(sourceId);
-              }
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    SizedBox(height: 40, child: _buildSourcesList()),
-                      state is ArticlesLoaded? _buildArticles(true):const Center(child: CircularProgressIndicator(),)
-                  ],
-                ),
-              );
-            }
-            return const CircularProgressIndicator();
-          },
+        body:  Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              SizedBox(height: 40, child: _buildSourcesList()),
+              _buildArticles(true),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Expanded _buildArticles(bool isSkeleton) {
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.all(8),
-        itemCount:newsCubit.articles.length,
-        itemBuilder: (context, index) => ArticleWidget(article: newsCubit.articles[index]),
-      ),
-    );
+  Widget _buildArticles(bool isSkeleton) {
+    return BlocBuilder<NewsScreenCubit, NewsScreenState>(
+      buildWhen: (previous, current) => current is ArticlesLoaded,
+  builder: (context, state) {
+      if (state is ArticlesLoaded) {
+        return Expanded(
+        child: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount:state.articles.length,
+          itemBuilder: (context, index) => ArticleWidget(article: state.articles[index]),
+        ),
+            );
+      }
+      return Center(child: CircularProgressIndicator(),);
+  },
+);
   }
 
   AppBar _buildAppBar() {
     return AppBar(
       toolbarHeight: 72,
-      title: Text(widget.categoryId),
+      title: Text("Sports"),
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -94,17 +90,28 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   Widget _buildSourcesList() {
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: newsCubit.sources.length,
-      itemBuilder: (context, index) => CustomChoiceChip(
-        label: newsCubit.sources[index].name!,
-        isSelected: index == 0,
-        onSelected: () {
-          sourceId = newsCubit.sources[index].id!;
-          newsCubit.getArticles(sourceId);
-        },
-      ),
-    );
+    return BlocBuilder<NewsScreenCubit, NewsScreenState>(
+      buildWhen: (previous, current){
+        print("current: $current, previous: $previous");
+        return current is SourcesLoaded;
+      },
+  builder: (context, state) {
+     if (state is SourcesLoaded) {
+      return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: state.sources.length,
+        itemBuilder: (context, index) => CustomChoiceChip(
+          label: state.sources[index].name!,
+          isSelected: index == 0,
+          onSelected: () {
+            sourceId = state.sources[index].id!;
+            newsCubit.getArticles(sourceId);
+          },
+        ),
+      );
+    }
+    return CircularProgressIndicator();
+  },
+);
   }
 }
