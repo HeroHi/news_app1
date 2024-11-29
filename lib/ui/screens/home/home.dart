@@ -9,7 +9,8 @@ import '../../widgets/custom_drawer.dart';
 
 class Home extends StatefulWidget {
   static String routeName = "Home";
-  const Home({super.key});
+  int currentTabIndex = 0;
+   Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -21,25 +22,30 @@ class _HomeState extends State<Home> {
     const SettingsTab(),
   ];
   late ThemeData theme;
-  int currentTabIndex = 0;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(ModalRoute.of(context) != null){
+        widget.currentTabIndex = ModalRoute.of(context)!.settings.arguments as int? ?? 0;
+      }
+    },);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    if(ModalRoute.of(context) != null){
-    currentTabIndex = ModalRoute.of(context)!.settings.arguments as int? ?? currentTabIndex;
-    }
     theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(),
       drawer: CustomDrawer(onItemTab: (index){
-        currentTabIndex = index;
+        widget.currentTabIndex = index;
         setState(() {});
       }),
       body: Container(
         decoration: BoxDecoration(
             color: AppColors.white,
             image: DecorationImage(image: AssetImage(Assets.imagesPattern))),
-        child: tabs[currentTabIndex],
+        child: tabs[widget.currentTabIndex],
       ),
     );
   }

@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app1/domain/di/di.dart';
 import 'package:news_app1/ui/screens/home/home.dart';
 import 'package:news_app1/ui/screens/news/view/news_screen.dart';
 import 'package:news_app1/utils/consts/app_themes.dart';
 
+import 'data/api/model/article.dart';
+import 'data/api/model/source.dart';
 import 'ui/screens/detailed_article_screen/detailed_article_screen.dart';
 
 
-void main() {
+void main() async{
   configureDependencies();
+  await Hive.initFlutter();
+  Hive.registerAdapter(SourceAdapter());
+  Hive.registerAdapter(ArticleAdapter());
   runApp(const MyApp());
 }
 

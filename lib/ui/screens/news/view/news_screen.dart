@@ -33,26 +33,28 @@ class _NewsScreenState extends State<NewsScreen> {
   late List<ArticleEntity> articles;
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
-  void _startSearching(){
+  void _startSearching() {
     _isSearching = true;
-    ModalRoute.of(context)!.addLocalHistoryEntry(LocalHistoryEntry(onRemove: (){
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: () {
       Navigator.pop(context);
     }));
   }
-  void searchFor({required String sourceId,required String q}){
+
+  void searchFor({required String sourceId, required String q}) {
     newsCubit.getFilteredArticles(sourceId: sourceId, q: q);
   }
-  void _stopSearching(){
+
+  void _stopSearching() {
     _isSearching = false;
     newsCubit.getArticles(sourceId);
     _searchController.clear();
   }
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        widget.categoryId =
-            ModalRoute.of(context)!.settings.arguments as String;
         newsCubit.getSources(widget.categoryId);
       },
     );
@@ -61,10 +63,10 @@ class _NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    widget.categoryId = ModalRoute.of(context)!.settings.arguments as String;
     return BlocProvider(
       create: (context) => newsCubit,
       child: Scaffold(
-        drawer: _buildDrawer(),
         appBar: _buildAppBar(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -79,13 +81,10 @@ class _NewsScreenState extends State<NewsScreen> {
     );
   }
 
-  Widget _buildDrawer() =>  CustomDrawer(onItemTab: (index) {
-    Navigator.pushReplacementNamed(context, Home.routeName,arguments: index);
-  });
-
   Widget _buildArticles() {
     return BlocBuilder<NewsScreenCubit, NewsScreenState>(
-      buildWhen: (previous, current) => current is ArticlesLoaded || current is ArticlesLoading ,
+      buildWhen: (previous, current) =>
+          current is ArticlesLoaded || current is ArticlesLoading,
       builder: (context, state) {
         return Expanded(
           child: ListView.builder(
@@ -96,10 +95,12 @@ class _NewsScreenState extends State<NewsScreen> {
                 child: (state is! ArticlesLoaded)
                     ? SkeletonArticleWidget()
                     : InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, DetailedArticleScreen.routeName,arguments: state.articles[index]);
-                  },
-                    child: ArticleWidget(article: state.articles[index]))),
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, DetailedArticleScreen.routeName,
+                              arguments: state.articles[index]);
+                        },
+                        child: ArticleWidget(article: state.articles[index]))),
           ),
         );
       },
@@ -109,7 +110,10 @@ class _NewsScreenState extends State<NewsScreen> {
   AppBar _buildAppBar() {
     return AppBar(
       toolbarHeight: 72,
-      title: _isSearching?_buildSearchTextField():Text("sports"),
+      title: _isSearching
+          ? _buildSearchTextField()
+          : Text(widget.categoryId[0].toUpperCase() +
+              widget.categoryId.substring(1)),
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -123,55 +127,65 @@ class _NewsScreenState extends State<NewsScreen> {
     return BlocBuilder<NewsScreenCubit, NewsScreenState>(
       buildWhen: (previous, current) => current is SourcesLoaded,
       builder: (context, state) {
-        if(state is SourcesLoaded){
-          if(widget.selectedTabIndex == 0){
+        if (state is SourcesLoaded) {
+          if (widget.selectedTabIndex == 0) {
             newsCubit.getArticles(state.sources[0].id!);
             sourceId = state.sources[0].id!;
           }
         }
-          return _buildSourcesList(state);
+        return _buildSourcesList(state);
       },
     );
   }
 
   ListView _buildSourcesList(NewsScreenState state) {
     return ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: state is SourcesLoaded? state.sources.length:10,
-          itemBuilder: (context, index) => Skeletonizer(
-            enabled: state is! SourcesLoaded,
-            child: state is SourcesLoaded ? CustomChoiceChip(
-              label: state.sources[index].name!,
-              isSelected: index == widget.selectedTabIndex,
-              onSelected: () {
-                sourceId = state.sources[index].id!;
-              widget.selectedTabIndex = index;
-               setState(() {});
-                newsCubit.getArticles(sourceId);
-              },
-            ):_buildSkeletonSource(),
-          ),
-        );
+      scrollDirection: Axis.horizontal,
+      itemCount: state is SourcesLoaded ? state.sources.length : 10,
+      itemBuilder: (context, index) => Skeletonizer(
+        enabled: state is! SourcesLoaded,
+        child: state is SourcesLoaded
+            ? CustomChoiceChip(
+                label: state.sources[index].name!,
+                isSelected: index == widget.selectedTabIndex,
+                onSelected: () {
+                  sourceId = state.sources[index].id!;
+                  widget.selectedTabIndex = index;
+                  setState(() {});
+                  newsCubit.getArticles(sourceId);
+                },
+              )
+            : _buildSkeletonSource(),
+      ),
+    );
   }
 
   Widget _buildSkeletonSource() {
-    return CustomChoiceChip(label: "skl label", onSelected: (){}, isSelected: false);
+    return CustomChoiceChip(
+        label: "skl label", onSelected: () {}, isSelected: false);
   }
-  Widget _buildAppBarAction(){
-    if(_isSearching){
-      return IconButton(onPressed: (){
-        _stopSearching();
-        setState(() {});
-      }, icon: Icon(Icons.clear,));
-    }
-    else{
-      return IconButton(onPressed: (){
-        _startSearching();
-        setState(() {});
-      }, icon: Icon(Icons.search));
+
+  Widget _buildAppBarAction() {
+    if (_isSearching) {
+      return IconButton(
+          onPressed: () {
+            _stopSearching();
+            setState(() {});
+          },
+          icon: Icon(
+            Icons.clear,
+          ));
+    } else {
+      return IconButton(
+          onPressed: () {
+            _startSearching();
+            setState(() {});
+          },
+          icon: Icon(Icons.search));
     }
   }
-  Widget _buildSearchTextField(){
+
+  Widget _buildSearchTextField() {
     return TextField(
       decoration: InputDecoration(
         border: InputBorder.none,
@@ -180,7 +194,7 @@ class _NewsScreenState extends State<NewsScreen> {
       ),
       style: Theme.of(context).textTheme.displayMedium,
       onChanged: (value) {
-        searchFor(sourceId: sourceId,q: value);
+        searchFor(sourceId: sourceId, q: value);
         setState(() {});
       },
     );
