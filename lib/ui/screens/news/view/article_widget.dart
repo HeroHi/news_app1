@@ -20,7 +20,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CachedNetworkImage(imageUrl: widget.article.urlToImage!,),
+          CachedNetworkImage(imageUrl: widget.article.urlToImage!,placeholder: (context, url) => CircularProgressIndicator(),),
           Text(widget.article.source!.name!,style: theme.textTheme.displaySmall,),
           Text(widget.article.title!,style: theme.textTheme.titleLarge!.copyWith(fontSize: 14))
         ],

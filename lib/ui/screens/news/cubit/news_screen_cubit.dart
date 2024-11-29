@@ -11,7 +11,7 @@ class NewsScreenCubit extends Cubit<NewsScreenState> {
   late List<ArticleEntity> articles;
   late List<SourceEntity> sources;
   NewsScreenCubit(this.newsRepo) : super(NewsScreenInitial());
-  void getArticles(String sourceId) {
+  Future<void> getArticles(String sourceId) async{
     emit(ArticlesLoading());
     newsRepo.getArticles(sourceId).then((articles) {
       emit(ArticlesLoaded(articles));

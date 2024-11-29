@@ -22,8 +22,12 @@ class _HomeState extends State<Home> {
   ];
   late ThemeData theme;
   int currentTabIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    if(ModalRoute.of(context) != null){
+    currentTabIndex = ModalRoute.of(context)!.settings.arguments as int? ?? currentTabIndex;
+    }
     theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(),
