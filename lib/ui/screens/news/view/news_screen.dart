@@ -33,10 +33,6 @@ class _NewsScreenState extends State<NewsScreen> {
 
   void _startSearching() {
     _isSearching = true;
-    ModalRoute.of(context)!
-        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: () {
-      Navigator.pop(context);
-    }));
   }
 
   void searchFor({required String sourceId, required String q}) {
@@ -194,7 +190,7 @@ class _NewsScreenState extends State<NewsScreen> {
         hintText: context.tr("searchForArticle"),
         hintStyle: Theme.of(context).textTheme.displaySmall,
       ),
-      style: Theme.of(context).textTheme.displayMedium,
+      style: Theme.of(context).textTheme.displayMedium!.copyWith(color:Colors.white),
       onChanged: (value) {
         searchFor(sourceId: sourceId, q: value);
         setState(() {});

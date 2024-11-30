@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:news_app1/domain/di/di.dart';
 import 'package:news_app1/ui/screens/home/home.dart';
 import 'package:news_app1/ui/screens/news/view/news_screen.dart';
+import 'package:news_app1/ui/screens/splash/splash_screen.dart';
 import 'package:news_app1/utils/consts/app_themes.dart';
 import 'data/api/model/article.dart';
 import 'data/api/model/source.dart';
@@ -41,9 +42,10 @@ class MyApp extends StatelessWidget {
       routes: {
         Home.routeName: (_)=> Home(),
         NewsScreen.routeName:(_)=>NewsScreen(),
-        DetailedArticleScreen.routeName:(_)=>DetailedArticleScreen()
+        DetailedArticleScreen.routeName:(_)=>DetailedArticleScreen(),
+        SplashScreen.routeName:(_)=>SplashScreen()
       },
-      initialRoute: Home.routeName,
+      initialRoute: SplashScreen.routeName,
     );
   }
 }

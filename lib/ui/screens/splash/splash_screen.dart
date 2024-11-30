@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app1/generated/assets.dart';
 
+import '../home/home.dart';
+
 class SplashScreen extends StatelessWidget {
   static const String routeName = "splash";
 
@@ -8,6 +10,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 4),() {
+      Navigator.pushReplacementNamed(context, Home.routeName);
+    },);
     return Scaffold(
       body: DecoratedBox(
           decoration: BoxDecoration(

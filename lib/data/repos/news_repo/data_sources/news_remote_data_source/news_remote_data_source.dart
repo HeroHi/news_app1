@@ -13,7 +13,7 @@ class NewsRemoteDataSource {
   static const String _baseUrl = "newsapi.org";
   static const String _sourcesEndPoint = "/v2/top-headlines/sources";
   static const String _articlesEndPoint = "/v2/top-headlines";
-  static const String _apiKey = "cf458e32fe31478caa9ca501aff550ff";
+  static const String _apiKey = "a7799e401ba843a9a1bfc4908d7b6581";
   static const String _defaultErrorMessage =
       "Something went wrong please try again later";
   Future<List<Source>> getSources(String categoryId) async {
