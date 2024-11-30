@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String assetsImagesLogo = 'assets/images/logo.png';
+  static const String assetsTranslationEn = 'assets/translation/en.json';
   static const String imagesBall = 'assets/images/ball.png';
   static const String imagesBussines = 'assets/images/bussines.png';
   static const String imagesEnvironment = 'assets/images/environment.png';
@@ -12,5 +13,7 @@ class Assets {
   static const String imagesPattern = 'assets/images/pattern.png';
   static const String imagesPolitics = 'assets/images/Politics.png';
   static const String imagesScience = 'assets/images/science.png';
+  static const String translationAr = 'assets/translation/ar.json';
+  static const String translationEn = 'assets/translation/en.json';
 
 }

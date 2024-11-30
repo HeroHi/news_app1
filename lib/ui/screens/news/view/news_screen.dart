@@ -1,16 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app1/domain/di/di.dart';
 import 'package:news_app1/domain/entities/article_entity.dart';
-import 'package:news_app1/domain/entities/source_entity.dart';
 import 'package:news_app1/ui/screens/detailed_article_screen/detailed_article_screen.dart';
-import 'package:news_app1/ui/screens/home/home.dart';
 import 'package:news_app1/ui/screens/news/cubit/news_screen_cubit.dart';
 import 'package:news_app1/ui/screens/news/view/skeleton_article_widget.dart';
-import 'package:news_app1/utils/consts/app_colors.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
-import '../../../widgets/custom_drawer.dart';
 import 'custom_choice_chip.dart';
 import 'article_widget.dart';
 
@@ -29,10 +25,12 @@ class NewsScreen extends StatefulWidget {
 class _NewsScreenState extends State<NewsScreen> {
   NewsScreenCubit newsCubit = getIt();
   late String sourceId;
+  int page = 0;
   late List<ArticleEntity> searchedArticles;
   late List<ArticleEntity> articles;
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
+
   void _startSearching() {
     _isSearching = true;
     ModalRoute.of(context)!
@@ -50,6 +48,8 @@ class _NewsScreenState extends State<NewsScreen> {
     newsCubit.getArticles(sourceId);
     _searchController.clear();
   }
+
+
 
   @override
   void initState() {
@@ -84,8 +84,11 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget _buildArticles() {
     return BlocBuilder<NewsScreenCubit, NewsScreenState>(
       buildWhen: (previous, current) =>
-          current is ArticlesLoaded || current is ArticlesLoading,
+          current is ArticlesLoaded || current is ArticlesLoading||current is NewsScreenErrorState,
       builder: (context, state) {
+        if(state is NewsScreenErrorState){
+          return _buildRetryButton();
+        }
         return Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(8),
@@ -112,8 +115,7 @@ class _NewsScreenState extends State<NewsScreen> {
       toolbarHeight: 72,
       title: _isSearching
           ? _buildSearchTextField()
-          : Text(widget.categoryId[0].toUpperCase() +
-              widget.categoryId.substring(1)),
+          : Text(context.tr(widget.categoryId)),
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -189,7 +191,7 @@ class _NewsScreenState extends State<NewsScreen> {
     return TextField(
       decoration: InputDecoration(
         border: InputBorder.none,
-        hintText: "Search for article..",
+        hintText: context.tr("searchForArticle"),
         hintStyle: Theme.of(context).textTheme.displaySmall,
       ),
       style: Theme.of(context).textTheme.displayMedium,
@@ -198,5 +200,13 @@ class _NewsScreenState extends State<NewsScreen> {
         setState(() {});
       },
     );
+  }
+
+  Widget _buildRetryButton() {
+    return ElevatedButton(onPressed: (){
+      newsCubit.getArticles(sourceId);
+    }, child: ClipRect(
+      child: Icon(Icons.roundabout_right_sharp),
+    ));
   }
 }

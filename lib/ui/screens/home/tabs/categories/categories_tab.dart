@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app1/main.dart';
 import 'package:news_app1/ui/screens/news/view/news_screen.dart';
 
 import '../../../../model/category.dart';
@@ -14,7 +16,7 @@ class CategoriesTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Pick your category \n of interest",style: theme.textTheme.titleLarge,),
+          Text(context.tr("pickCategory"),style: theme.textTheme.titleLarge,),
           const SizedBox(height: 30,),
           _buildGridView(),
         ],

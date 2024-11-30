@@ -1,0 +1,19 @@
+{
+  "appName": "تطبيق الأخبار!",
+  "pickCategory": "اختر فئة اهتمامك",
+  "categories": "الفئات",
+  "settings": "الإعدادات",
+  "searchHint": "ابحث عن مقال..",
+  "language": "اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "business": "أعمال",
+  "health": "صحة",
+  "sports": "رياضة",
+  "science": "علم",
+  "technology": "تكنولوجيا",
+  "entertainment": "ترفيه",
+  "viewFullArticle": "عرض المقال الكامل",
+  "noContentFound": "لا يوجد محتوي",
+  "searchForArticle": "البحث عن مقال.."
+}

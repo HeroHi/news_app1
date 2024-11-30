@@ -1,0 +1,19 @@
+{
+  "appName": "News App!",
+  "pickCategory": "Pick your category \n of interest",
+  "categories": "Categories",
+  "settings": "Settings",
+  "searchHint": "Search for article..",
+  "language": "Language",
+  "english": "English",
+  "arabic": "العربية",
+  "business": "Business",
+  "health": "Health",
+  "sports": "Sports",
+  "science": "Science",
+  "technology": "Technology",
+  "entertainment": "Entertainment",
+  "viewFullArticle": "View Full Article",
+  "noContentFound": "There is no content",
+  "searchForArticle": "Search for article.."
+}

@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app1/main.dart';
 
 import '../../utils/consts/app_colors.dart';
 
@@ -19,15 +21,15 @@ class CustomDrawer extends StatelessWidget {
             color: AppColors.primary,
             child: Center(
               child: Text(
-                "News App!",
+                context.tr("appName"),
                 style: theme.textTheme.titleLarge!
                     .copyWith(color: AppColors.white),
               ),
             ),
           ),
-          _buildDrawerListItem(Icons.list,"Categories",0,context,theme),
+          _buildDrawerListItem(Icons.list,context.tr("categories"),0,context,theme),
           const SizedBox(height: 10,),
-          _buildDrawerListItem(Icons.settings, "Settings",1,context,theme)
+          _buildDrawerListItem(Icons.settings, context.tr("settings"),1,context,theme)
         ],
       ),
     );

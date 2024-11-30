@@ -35,7 +35,7 @@ class NewsRemoteDataSource {
   Future<List<Article>> getArticles(String sourceId) async {
     try {
       Uri url = Uri.https(_baseUrl, _articlesEndPoint,
-          {"apiKey": _apiKey, "sources": sourceId});
+          {"apiKey": _apiKey, "sources": sourceId,});
       Response serverResponse = await get(url);
       ArticlesResponse articlesResponse =
       ArticlesResponse.fromJson(jsonDecode(serverResponse.body));

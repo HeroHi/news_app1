@@ -13,22 +13,35 @@ class NewsScreenCubit extends Cubit<NewsScreenState> {
   NewsScreenCubit(this.newsRepo) : super(NewsScreenInitial());
   Future<void> getArticles(String sourceId) async{
     emit(ArticlesLoading());
-    newsRepo.getArticles(sourceId).then((articles) {
-      emit(ArticlesLoaded(articles));
-      this.articles = articles;
-    },);
+    try {
+      newsRepo.getArticles(sourceId).then((articles) {
+        emit(ArticlesLoaded(articles));
+        this.articles = articles;
+      },);
+    } on Exception catch (e) {
+      emit(NewsScreenErrorState(e.toString()));
+    }
 }
   void getSources(String categoryId) {
-    emit(SourcesLoading());
-    newsRepo.getSources(categoryId).then((sources) {
-      emit(SourcesLoaded(sources));
-      this.sources = sources;
-    },);
+    try {
+      emit(SourcesLoading());
+      newsRepo.getSources(categoryId).then((sources) {
+        emit(SourcesLoaded(sources));
+        this.sources = sources;
+      },);
+    } on Exception catch (e) {
+      emit(NewsScreenErrorState(e.toString()));
+    }
   }
   void getFilteredArticles({required String sourceId,required String q}){
-    newsRepo.getArticlesByQ(sourceId: sourceId, q: q).then((articles) {
-      emit(ArticlesLoaded(articles));
-      this.articles = articles;
-    },);
+    try {
+      newsRepo.getArticlesByQ(sourceId: sourceId, q: q)
+      .then((articles) {
+        emit(ArticlesLoaded(articles));
+        this.articles = articles;
+      },);
+    } on Exception catch (e) {
+      emit(NewsScreenErrorState(e.toString()));
+    }
   }
 }

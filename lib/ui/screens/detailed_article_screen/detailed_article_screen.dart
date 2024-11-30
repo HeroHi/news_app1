@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app1/domain/entities/article_entity.dart';
+import 'package:news_app1/main.dart';
 import 'package:news_app1/ui/screens/news/view/article_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../utils/consts/app_colors.dart';
@@ -15,7 +17,7 @@ class DetailedArticleScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 72,
-        title: Text("News Title",style: theme.textTheme.titleLarge!.copyWith(color: AppColors.white),),
+        title: Text(article.source!.name!,style: theme.textTheme.titleLarge!.copyWith(color: AppColors.white),),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -23,9 +25,9 @@ class DetailedArticleScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ArticleWidget(article: article),
-            Expanded(child: Text(article.content??article.title??"some random content",style: theme.textTheme.titleLarge!.copyWith(fontSize: 14),)),
+            Expanded(child: Text(article.content??article.title??context.tr("noContentFound"),style: theme.textTheme.titleLarge!.copyWith(fontSize: 14),)),
             Spacer(),
-            Text("View Full Article",style: theme.textTheme.titleLarge!.copyWith(fontSize: 14),textAlign: TextAlign.end,),
+            Text(context.tr("viewFullArticle"),style: theme.textTheme.titleLarge!.copyWith(fontSize: 14),textAlign: TextAlign.end,),
             InkWell(
               onTap: () {
                 final Uri url = Uri.parse(article.url!);
